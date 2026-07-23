@@ -1,0 +1,8 @@
+[metadata]
+name = CryptoLockVariant
+description = File-encrypting ransomware that drops a ransom note and appends a custom extension
+
+[rules]
+"YOUR FILES HAVE BEEN ENCRYPTED" nocase
+".lockedfiles" and {AA BB CC DD ?? ?? 11 22}
+"vssadmin delete shadows" and "bcdedit"
