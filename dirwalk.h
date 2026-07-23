@@ -1,5 +1,5 @@
 
- */
+ 
 #ifndef MALSCAN_DIRWALK_H
 #define MALSCAN_DIRWALK_H
 
