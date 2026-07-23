@@ -1,31 +1,4 @@
-/*
- * main.c
- * ---------------------------------------------------------------------------
- * A rules-based malware detection engine.
- *
- *   ./malscan <file_to_scan> <rules_directory>
- *
- * See README.md for the full rule-file format and design notes. In short:
- *
- *   [metadata]
- *   name = TrojanX
- *   description = Injects into remote processes and phones home
- *
- *   [rules]
- *   "CreateRemoteThread" and "VirtualAllocEx"
- *   {4D 5A 90 00 03 00 00 00} and "kernel32.dll" nocase
- *   "powershell -enc" or "cmd.exe /c" or {68 74 74 70 3A 2F 2F}
- *   not "SAFE_MARKER_1234" and "evil_payload"
- *
- * Each malware family is one file, split into [metadata] and [rules].
- * A rule (one line) is a boolean expression over string/hex terms.
- * A family matches if ANY of its rules match. The rules directory may
- * be nested arbitrarily deep; every regular file underneath is
- * considered a candidate rule file (non-rule files are skipped).
- * The scanned target file is always treated as an opaque byte blob --
- * no assumption is made about its encoding or structure.
- * ---------------------------------------------------------------------------
- */
+
 #include "platform.h"
 
 #include <stdio.h>
@@ -55,14 +28,13 @@ int main(int argc, char **argv) {
     const char *target_path = argv[1];
     const char *rules_dir = argv[2];
 
-    /* --- Load target file (arbitrary bytes, no encoding assumptions) --- */
     ByteBuf target;
     if (read_file_bytes(target_path, &target) != 0) {
         fprintf(stderr, "malscan: error: cannot read target file '%s'\n", target_path);
         return 2;
     }
 
-    /* --- Collect all candidate rule files (recursive) --- */
+
     PathList paths;
     pathlist_init(&paths);
     walk_dir(rules_dir, &paths);
@@ -89,7 +61,7 @@ int main(int argc, char **argv) {
         free(text);
 
         if (rc != 0) {
-            /* Not a rule file (no [metadata]/[rules] markers) -- skip it. */
+        
             continue;
         }
 
