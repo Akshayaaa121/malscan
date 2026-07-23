@@ -48,9 +48,9 @@ void walk_dir(const char *dir, PathList *out) {
         if (lstat(path, &st) != 0) continue;
 
         if (S_ISLNK(st.st_mode)) {
-            continue; /* don't follow symlinks: avoids cycles */
+            continue; 
         } else if (S_ISDIR(st.st_mode)) {
-            walk_dir(path, out); /* recurse into subfolder */
+            walk_dir(path, out);
         } else if (S_ISREG(st.st_mode)) {
             pathlist_add(out, path);
         }
