@@ -61,7 +61,7 @@ unsigned char *parse_quoted_string(const char **p, size_t *out_len) {
 
     if (*s != '"') {
         free(buf);
-        return NULL; /* unterminated string */
+        return NULL; 
     }
     s++;
 
