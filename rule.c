@@ -143,7 +143,7 @@ int eval_rule(const Rule *rule, const unsigned char *hay, size_t hlen) {
         int next_val = eval_term(&rule->terms[i + 1], hay, hlen);
         if (rule->ops[i] == OP_AND) {
             and_acc = and_acc && next_val;
-        } else { /* OP_OR */
+        } else {
             or_acc = or_acc || and_acc;
             and_acc = next_val;
         }
