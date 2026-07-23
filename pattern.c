@@ -38,11 +38,11 @@ unsigned char *parse_quoted_string(const char **p, size_t *out_len) {
                     if (isxdigit((unsigned char)s[0]) && isxdigit((unsigned char)s[1])) {
                         char tmp[3] = { s[0], s[1], '\0' };
                         hi = (int)strtol(tmp, NULL, 16);
-                        lo = 0; /* mark valid */
+                        lo = 0; 
                         s += 2;
                     }
                     if (lo == -1) {
-                        buf[n++] = 'x'; /* malformed \x escape; treat literally */
+                        buf[n++] = 'x'; 
                     } else {
                         buf[n++] = (unsigned char)hi;
                     }
@@ -96,7 +96,7 @@ int parse_hex_pattern(const char **p, unsigned char **out_bytes,
 
         if (s[0] == '?' && s[1] == '?') {
             bytes[n] = 0x00;
-            mask[n] = 0; /* wildcard */
+            mask[n] = 0;
             n++;
             s += 2;
         } else if (isxdigit((unsigned char)s[0]) && isxdigit((unsigned char)s[1])) {
@@ -122,7 +122,7 @@ int parse_hex_pattern(const char **p, unsigned char **out_bytes,
     return 0;
 }
 
-/* Boyer-Moore-Horspool for exact (no wildcard, case-sensitive) patterns. */
+
 static int bmh_search(const unsigned char *hay, size_t hlen,
                        const unsigned char *pat, size_t plen) {
     if (plen == 0) return 1;
@@ -148,8 +148,7 @@ static inline unsigned char lower_byte(unsigned char c) {
     return (unsigned char)tolower(c);
 }
 
-/* Generic matcher for patterns that have wildcards and/or are
- * case-insensitive. Checks every candidate offset directly. */
+
 static int generic_search(const unsigned char *hay, size_t hlen, const Pattern *pat) {
     size_t plen = pat->len;
     if (plen == 0) return 1;
@@ -158,7 +157,7 @@ static int generic_search(const unsigned char *hay, size_t hlen, const Pattern *
     for (size_t pos = 0; pos <= hlen - plen; pos++) {
         int ok = 1;
         for (size_t j = 0; j < plen; j++) {
-            if (pat->mask[j] == 0) continue; /* wildcard, always matches */
+            if (pat->mask[j] == 0) continue; 
             unsigned char h = hay[pos + j];
             unsigned char c = pat->bytes[j];
             if (pat->nocase) {
