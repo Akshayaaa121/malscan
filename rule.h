@@ -29,4 +29,4 @@ int parse_rule_line(const char *line, Rule *rule, const char *filepath, int line
  * bytes hay[0..hlen). Returns 1 if the rule matches, 0 otherwise. */
 int eval_rule(const Rule *rule, const unsigned char *hay, size_t hlen);
 
-#endif /* MALSCAN_RULE_H */
+#endif 
